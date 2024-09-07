@@ -1,0 +1,158 @@
+::-webkit-scrollbar {
+  height: 12px;
+  width: 12px;
+  background: #fbfbfb;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 1px;
+  background: #f5f5f5;
+}
+::-webkit-scrollbar-corner {
+  background: #fbfbfb;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 10px;
+  background-color: #fff;
+  font-family: "Verdana", sans-serif;
+  font-size: 14px;
+  color: #999;
+}
+
+/* -----------------------------------------------------------------------------
+ * headers
+ */
+
+#app > #headers > table,
+#app > #headers > table > caption {
+  width: 600px;
+  max-width: 100%;
+}
+
+#app > #headers > table {
+  border: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: 0 0 1px 0;
+}
+
+#app > #headers > table > caption {
+  padding: 5px;
+  text-align: left;
+/*
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+*/
+  word-break: break-all;
+}
+#app > #headers > table.request > caption {
+  background: #373737;
+  color: white;
+  margin-bottom: 1px;
+}
+#app > #headers > table.response > caption {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#app > #headers > table.response > caption[class^='status-code-2'] {
+  border-left: 5px solid rgb(34, 140, 36);
+}
+#app > #headers > table.response > caption[class^='status-code-3'] {
+  border-left: 5px solid rgb(29, 154, 207);
+}
+#app > #headers > table.response > caption[class^='status-code-4'],
+#app > #headers > table.response > caption[class^='status-code-5'] {
+  border-left: 5px solid rgb(162, 43, 50);
+}
+
+#app > #headers > table > thead {
+  display: none;
+}
+#app > #headers > table > thead > tr {
+}
+#app > #headers > table > thead > tr > th {
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#app > #headers > table > thead > tr > th:first-child {
+  width: 25%;
+  max-width: 20em;
+  text-align: right;
+  padding-right: 10px;
+}
+#app > #headers > table > thead > tr > th:last-child {
+  width: 75%;
+  text-align: left;
+  padding-left: 10px;
+}
+
+#app > #headers > table > tfoot {
+  display: none;
+}
+
+#app > #headers > table > tbody {
+}
+#app > #headers > table > tbody > tr {
+  transition: background .075s ease-in-out;
+}
+#app > #headers > table > tbody > tr:hover {
+  background: #f1f1f1;
+}
+#app > #headers > table > tbody > tr.copy-hightlight {
+  background: rgb(182, 219, 193) !important;
+}
+
+#app > #headers > table > tbody > tr > td {
+  border: 0;
+  font-size: 11px;
+  margin: 0;
+  cursor: copy;
+  padding: 3px 0;
+  vertical-align: top;
+/*
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+*/
+  word-break: break-all;
+}
+#app > #headers > table > tbody > tr > td:first-child {
+  width: 25%;
+  max-width: 20em;
+  text-align: right;
+  padding-right: 10px;
+  text-transform: capitalize;
+}
+#app > #headers > table > tbody > tr > td:last-child {
+  width: 75%;
+  text-align: left;
+  padding-left: 10px;
+}
+
+/* -----------------------------------------------------------------------------
+ * buttons: actions
+ */
+
+#app > div > button {
+  cursor: pointer;
+  padding: 10px;
+  font-size: 1.25em;
+  background: #eee;
+  color: #000;
+  border: 2px #000 solid;
+  transition: border 0.5s;
+  transition: border-color 0.5s;
+}
+#app > div > button:hover,
+#app > div > button[disabled] {
+  color: #999;
+  border-color: #999;
+}

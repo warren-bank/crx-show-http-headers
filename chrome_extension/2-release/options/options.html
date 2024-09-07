@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Show-HTTP-Headers Extension Options</title>
+  <link rel="stylesheet" type="text/css" href="css/options.css" />
+</head>
+<body>
+  <h3>Exclude:</h3>
+  <div class="row">
+    <input type="checkbox" id="exclude_all_requests" />
+    <label>All Requests</label>
+  </div>
+  <div class="row">
+    <input type="checkbox" id="exclude_all_responses" />
+    <label>All Responses</label>
+  </div>
+  <div class="urls" id="exclude_urls">
+    <div class="row">
+      <button class="add_url">+</button>
+      <h4 title="RegExp must start with '^'">URL Patterns:</h4>
+    </div>
+    <ol>
+      <li><input type="text" class="url" /></li>
+    </ol>
+  </div>
+
+  <hr />
+  <h3>Include:</h3>
+  <div class="urls" id="include_urls">
+    <div class="row">
+      <button class="add_url">+</button>
+      <h4 title="RegExp must start with '^'">URL Patterns:</h4>
+    </div>
+    <ol>
+      <li><input type="text" class="url" /></li>
+    </ol>
+  </div>
+
+  <hr />
+  <div id="status"></div>
+  <button id="save">Save</button>
+
+  <script src="js/options.js"></script>
+</body>
+</html>
