@@ -243,7 +243,7 @@ chrome.webRequest.onSendHeaders.addListener(
 // https://developer.chrome.com/docs/extensions/reference/webRequest/#type-OnHeadersReceivedOptions
 chrome.webRequest.onHeadersReceived.addListener(
   function(details){
-    if (should_ignore_request(details))
+    if (should_ignore_response(details))
       return
 
     process_raw_web_request(details)
