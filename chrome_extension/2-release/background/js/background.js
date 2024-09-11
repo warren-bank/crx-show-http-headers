@@ -295,6 +295,32 @@ chrome.tabs.onRemoved.addListener(
 )
 
 // -----------------------------------------------------------------------------
+// message sent from popup by: "ff_private_bg_window_proxy"
+
+if (typeof browser !== 'undefined') {
+  browser.runtime.onMessage.addListener((message) => {
+    if (message && (typeof message === 'object') && message.method) {
+      switch(message.method) {
+        case "clear_headers": {
+            const {tab_id, hide_popup} = message.params
+            clear_headers(tab_id, hide_popup)
+            return Promise.resolve(true)
+          }
+          break
+
+        case "get_headers": {
+            const {tab_id} = message.params
+            const headers = get_headers(tab_id)
+            return Promise.resolve(headers)
+          }
+          break
+      }
+    }
+    return false
+  })
+}
+
+// -----------------------------------------------------------------------------
 
 // exports
 window.get_headers   = get_headers

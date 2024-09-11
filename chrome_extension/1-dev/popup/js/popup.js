@@ -24,16 +24,32 @@ const get_tab_id = () => {
   })
 }
 
+const ff_private_bg_window_proxy = {
+  clear_headers: (tab_id, hide_popup) => {
+    // Promise
+    return browser.runtime.sendMessage({"method": "clear_headers", "params": {tab_id, hide_popup}})
+  },
+
+  get_headers: (tab_id) => {
+    // Promise
+    return browser.runtime.sendMessage({"method": "get_headers", "params": {tab_id}})
+  }
+}
+
 // https://developer.chrome.com/docs/extensions/reference/extension/#method-getBackgroundPage
 const get_background_window = () => {
   state.bg_window = chrome.extension.getBackgroundPage()
+
+  if (!state.bg_window) {
+    if (typeof browser !== 'undefined')
+      state.bg_window = ff_private_bg_window_proxy
+    else
+      throw new Error('')
+  }
 }
 
 const initialize_state = async () => {
   get_background_window()
-
-  if (!state.bg_window)
-    throw new Error('')
 
   await get_tab_id()
 }
@@ -207,12 +223,12 @@ const App = ({records}) => {
 
 // -----------------------------------------------------------------------------
 
-const get_props = () => {
-  return state.bg_window.get_headers( state.tab_id )
+const get_props = async () => {
+  return await state.bg_window.get_headers( state.tab_id )
 }
 
-const draw_list = () => {
-  const props = get_props()
+const draw_list = async () => {
+  const props = await get_props()
 
   if (props.records === state.records)
     return
