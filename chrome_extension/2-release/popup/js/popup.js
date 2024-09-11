@@ -143,8 +143,32 @@
     });
   };
 
+  var ff_private_bg_window_proxy = {
+    clear_headers: function clear_headers(tab_id, hide_popup) {
+      return browser.runtime.sendMessage({
+        "method": "clear_headers",
+        "params": {
+          tab_id: tab_id,
+          hide_popup: hide_popup
+        }
+      });
+    },
+    get_headers: function get_headers(tab_id) {
+      return browser.runtime.sendMessage({
+        "method": "get_headers",
+        "params": {
+          tab_id: tab_id
+        }
+      });
+    }
+  };
+
   var get_background_window = function get_background_window() {
     state.bg_window = chrome.extension.getBackgroundPage();
+
+    if (!state.bg_window) {
+      if (typeof browser !== 'undefined') state.bg_window = ff_private_bg_window_proxy;else throw new Error('');
+    }
   };
 
   var initialize_state = function () {
@@ -154,19 +178,10 @@
           switch (_context.prev = _context.next) {
             case 0:
               get_background_window();
-
-              if (state.bg_window) {
-                _context.next = 3;
-                break;
-              }
-
-              throw new Error('');
-
-            case 3:
-              _context.next = 5;
+              _context.next = 3;
               return get_tab_id();
 
-            case 5:
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -179,84 +194,6 @@
     };
   }();
 
-  var HTTP_STATUS_CODES = {
-    100: 'Continue',
-    101: 'Switching Protocols',
-    102: 'Processing',
-    200: 'OK',
-    201: 'Created',
-    202: 'Accepted',
-    203: 'Non-Authoritative Information',
-    204: 'No Content',
-    205: 'Reset Content',
-    206: 'Partial Content',
-    207: 'Multi-Status',
-    208: 'Already Reported',
-    226: 'IM Used',
-    300: 'Multiple Choices',
-    301: 'Moved Permanently',
-    302: 'Found',
-    303: 'See Other',
-    304: 'Not Modified',
-    305: 'Use Proxy',
-    306: 'Switch Proxy',
-    307: 'Temporary Redirect',
-    308: 'Permanent Redirect',
-    400: 'Bad Request',
-    401: 'Unauthorized',
-    402: 'Payment Required',
-    403: 'Forbidden',
-    404: 'Not Found',
-    405: 'Method Not Allowed',
-    406: 'Not Acceptable',
-    407: 'Proxy Authentication Required',
-    408: 'Request Time-out',
-    409: 'Conflict',
-    410: 'Gone',
-    411: 'Length Required',
-    412: 'Precondition Failed',
-    413: 'Payload Too Large',
-    414: 'URI Too Long',
-    415: 'Unsupported Media Type',
-    416: 'Range Not Satisfiable',
-    417: 'Expectation Failed',
-    418: 'I\'m a teapot',
-    420: 'Method Failure',
-    421: 'Misdirect Request',
-    422: 'Unprocessable Entity',
-    423: 'Locked',
-    424: 'Failed Dependency',
-    426: 'Upgrade Required',
-    428: 'Precondition Required',
-    429: 'Too Many Requests',
-    431: 'Request Header Fields Too Large',
-    444: 'No Response',
-    451: 'Unavailable For Legal Reasons',
-    495: 'SSL Certificate Error',
-    496: 'SSL Certificate Required',
-    497: 'HTTP Request Sent to HTTPS Port',
-    499: 'Client Closed Request',
-    500: 'Internal Server Error',
-    501: 'Not Implemented',
-    502: 'Bad Gateway',
-    503: 'Service Unavailable',
-    504: 'Gateway Time-out',
-    505: 'HTTP Version Not Supported',
-    506: 'Variant Also Negotiates',
-    507: 'Insufficient Storage',
-    508: 'Loop Detected',
-    509: 'Bandwidth Limit Exceeded',
-    510: 'Not Extended',
-    511: 'Network Authentication Required',
-    520: 'Unknown Error',
-    521: 'Web Server Is Down',
-    522: 'Connection Timed Out',
-    523: 'Origin Is Unreachable',
-    524: 'A Timeout Occurred',
-    525: 'SSL Handshake Failed',
-    526: 'Invalid SSL Certificate',
-    527: 'Railgun Error'
-  };
   var HEADER_DESCRIPTIONS = {
     'age': 'The time in seconds the object has been in a proxy cache.',
     'cache-control': 'Specifies directives for caching mechanisms in both, requests and responses.',
@@ -387,16 +324,67 @@
     }, "Clear")));
   };
 
-  var get_props = function get_props() {
-    return state.bg_window.get_headers(state.tab_id);
-  };
+  var get_props = function () {
+    var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return state.bg_window.get_headers(state.tab_id);
 
-  var draw_list = function draw_list() {
-    var props = get_props();
-    if (props.records === state.records) return;
-    state.records = props.records;
-    ReactDOM.render(React.createElement(App, props), document.getElementById('root'));
-  };
+            case 2:
+              return _context2.abrupt("return", _context2.sent);
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    return function get_props() {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+
+  var draw_list = function () {
+    var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3() {
+      var props;
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return get_props();
+
+            case 2:
+              props = _context3.sent;
+
+              if (!(props.records === state.records)) {
+                _context3.next = 5;
+                break;
+              }
+
+              return _context3.abrupt("return");
+
+            case 5:
+              state.records = props.records;
+              ReactDOM.render(React.createElement(App, props), document.getElementById('root'));
+
+            case 7:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    return function draw_list() {
+      return _ref4.apply(this, arguments);
+    };
+  }();
 
   var close_popup = function close_popup() {
     if (state.timer) clearInterval(state.timer);
@@ -407,36 +395,36 @@
   };
 
   var initialize_popup = function () {
-    var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4() {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context2.prev = _context2.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
-              _context2.prev = 0;
-              _context2.next = 3;
+              _context4.prev = 0;
+              _context4.next = 3;
               return initialize_state();
 
             case 3:
               draw_list();
               state.timer = setInterval(draw_list, 500);
-              _context2.next = 10;
+              _context4.next = 10;
               break;
 
             case 7:
-              _context2.prev = 7;
-              _context2.t0 = _context2["catch"](0);
+              _context4.prev = 7;
+              _context4.t0 = _context4["catch"](0);
               close_popup();
 
             case 10:
             case "end":
-              return _context2.stop();
+              return _context4.stop();
           }
         }
-      }, _callee2, null, [[0, 7]]);
+      }, _callee4, null, [[0, 7]]);
     }));
 
     return function initialize_popup() {
-      return _ref3.apply(this, arguments);
+      return _ref5.apply(this, arguments);
     };
   }();
 

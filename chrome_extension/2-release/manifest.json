@@ -2,7 +2,7 @@
   "name": "Show-HTTP-Headers",
   "short_name": "Show-HTTP-Headers",
   "description": "Show HTTP headers. Options to include or exclude: all requests, all responses, and matching URL (regex or substring) patterns.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "manifest_version": 2,
   "icons": {
     "16":  "icons/icon16.png",
