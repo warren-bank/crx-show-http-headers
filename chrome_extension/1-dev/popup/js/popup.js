@@ -173,6 +173,9 @@ const process_clear_headers = (event) => {
 const App = ({records}) => {
   return (
     <div id="app">
+      <div id="actions">
+        <button onClick={process_clear_headers}>Clear list</button>
+      </div>
       <div id="headers">
         {records.map((details, record_index) => {
           const type = details.hasOwnProperty('requestHeaders')
@@ -213,9 +216,6 @@ const App = ({records}) => {
             </table>
           )
         })}
-      </div>
-      <div id="actions">
-        <button onClick={process_clear_headers}>Clear</button>
       </div>
     </div>
   )
