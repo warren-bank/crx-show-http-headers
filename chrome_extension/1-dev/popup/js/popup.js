@@ -176,6 +176,7 @@ const App = ({records}) => {
       <div id="actions">
         <button onClick={process_clear_headers}>Clear list</button>
       </div>
+      <h4>Click on a header to copy it to clipboard.</h4>
       <div id="headers">
         {records.map((details, record_index) => {
           const type = details.hasOwnProperty('requestHeaders')
