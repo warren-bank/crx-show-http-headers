@@ -290,7 +290,11 @@
     var records = _ref2.records;
     return React.createElement("div", {
       id: "app"
-    }, React.createElement("div", {
+    }, React.createElement("h3", null, records.length, " matches on page."), !records.length ? null : React.createElement(React.Fragment, null, React.createElement("div", {
+      id: "actions"
+    }, React.createElement("button", {
+      onClick: process_clear_headers
+    }, "Clear list")), React.createElement("h4", null, "Click on a header to copy it to clipboard."), React.createElement("div", {
       id: "headers"
     }, records.map(function (details, record_index) {
       var type = details.hasOwnProperty('requestHeaders') ? 'request' : details.hasOwnProperty('responseHeaders') ? 'response' : null;
@@ -317,11 +321,7 @@
           title: title_for_header(header.name) || ''
         }, header.name), React.createElement("td", null, header.value));
       })), React.createElement("tfoot", null));
-    })), React.createElement("div", {
-      id: "actions"
-    }, React.createElement("button", {
-      onClick: process_clear_headers
-    }, "Clear")));
+    }))));
   };
 
   var get_props = function () {
