@@ -173,51 +173,58 @@ const process_clear_headers = (event) => {
 const App = ({records}) => {
   return (
     <div id="app">
-      <div id="actions">
-        <button onClick={process_clear_headers}>Clear list</button>
-      </div>
-      <h4>Click on a header to copy it to clipboard.</h4>
-      <div id="headers">
-        {records.map((details, record_index) => {
-          const type = details.hasOwnProperty('requestHeaders')
-            ? 'request'
-            : details.hasOwnProperty('responseHeaders')
-              ? 'response'
-              : null
+      <h3>{records.length} matches on page.</h3>
+      {
+        (!records.length) ? null : (
+          <>
+            <div id="actions">
+              <button onClick={process_clear_headers}>Clear list</button>
+            </div>
+            <h4>Click on a header to copy it to clipboard.</h4>
+            <div id="headers">
+              {records.map((details, record_index) => {
+                const type = details.hasOwnProperty('requestHeaders')
+                  ? 'request'
+                  : details.hasOwnProperty('responseHeaders')
+                    ? 'response'
+                    : null
 
-          if (!type) return null
+                if (!type) return null
 
-          const headers = [...details[`${type}Headers`]].map(obj => ({...obj, name: obj.name.toLowerCase()})).sort(compare_headers)
+                const headers = [...details[`${type}Headers`]].map(obj => ({...obj, name: obj.name.toLowerCase()})).sort(compare_headers)
 
-          return (
-            <table className={type} key={record_index}>
-              {
-                (type === 'request')
-                  ? <caption>{`${details.method} – ${details.url}`}</caption>
-                  : <caption className={`status-code-${details.statusCode}`}>{details.statusLine}</caption>
-              }
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {headers.map((header) => {
-                  return (
-                    <tr key={header.name} onClick={(event) => process_click_copy(event, header)}>
-                      <td title={title_for_header(header.name) || ''}>{header.name}</td>
-                      <td>{header.value}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-              <tfoot>
-              </tfoot>
-            </table>
-          )
-        })}
-      </div>
+                return (
+                  <table className={type} key={record_index}>
+                    {
+                      (type === 'request')
+                        ? <caption>{`${details.method} – ${details.url}`}</caption>
+                        : <caption className={`status-code-${details.statusCode}`}>{details.statusLine}</caption>
+                    }
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {headers.map((header) => {
+                        return (
+                          <tr key={header.name} onClick={(event) => process_click_copy(event, header)}>
+                            <td title={title_for_header(header.name) || ''}>{header.name}</td>
+                            <td>{header.value}</td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                    <tfoot>
+                    </tfoot>
+                  </table>
+                )
+              })}
+            </div>
+          </>
+        )
+      }
     </div>
   )
 }

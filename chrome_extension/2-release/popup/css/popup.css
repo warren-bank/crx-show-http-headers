@@ -28,8 +28,16 @@ body {
  * heading
  */
 
+#app > h3 {
+  color: #000;
+  font-size: 1.25em;
+  white-space: nowrap;
+}
 #app > h4 {
   font-size: 1.10em;
+}
+#app > #actions,
+#app > #headers {
   margin: 10px 0;
 }
 
