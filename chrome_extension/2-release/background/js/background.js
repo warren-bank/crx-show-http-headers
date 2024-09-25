@@ -204,7 +204,7 @@ const should_ignore_request = (details) => {
   if (!user_options)
     return false
 
-  if (user_options.exclude.all_requests)
+  if (user_options.exclude.all_requests && user_options.exclude.all_responses)
     return true
 
   return should_ignore_url(details)
@@ -228,6 +228,16 @@ chrome.webRequest.onSendHeaders.addListener(
   function(details){
     if (should_ignore_request(details))
       return
+
+    if (user_options && user_options.exclude.all_requests) {
+      // add a minimal request object to display the requested page before its list of response headers
+      const new_details = {}
+      for (let key of ['tabId', 'initiator', 'method', 'url']) {
+        new_details[key] = details[key]
+      }
+      new_details.requestHeaders = []
+      details = new_details
+    }
 
     process_raw_web_request(details)
   },
